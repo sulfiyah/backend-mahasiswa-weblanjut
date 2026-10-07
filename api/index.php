@@ -1,1 +1,17 @@
-<?php require __DIR__ . "/../public/index.php";
+<?php
+
+$app = require __DIR__ . '/../bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+*/
+
+if (getenv('VERCEL') || isset($_ENV['VERCEL'])) {
+    $app->useStoragePath('/tmp');
+}
+
+$request = Illuminate\Http\Request::capture();
+$response = $app->handle($request);
+$response->send();
